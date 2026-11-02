@@ -2,6 +2,16 @@
 
 Trang học M8–M11 cho DY18A. `index.html` là bản web có đăng ký/đăng nhập, bộ câu hỏi riêng cho từng bài, đọc tài liệu HTML/Word/PDF, kiểm tra đạt 85% và đồng bộ dữ liệu theo tài khoản.
 
+## Học ngay
+
+- [MedStudy trên trình duyệt](https://jeznopro.github.io/web-hust/study.html): học và lưu câu hỏi, tài liệu, tiến độ trong trình duyệt đang dùng; mở **Giải phẫu 3D** từ thanh bên.
+- [Giải phẫu 3D](https://jeznopro.github.io/web-hust/anatomy/): mô hình toàn thân, Atlas và não bộ được tải từ website, không cần mở ổ F.
+- [Bản tài khoản](https://jeznopro.github.io/web-hust/): cần cấu hình Supabase theo hướng dẫn bên dưới trước khi đăng nhập và đồng bộ.
+
+Dự án và ghi chú của phần giải phẫu được lưu trong trình duyệt; không đồng bộ với Supabase. Dữ liệu riêng từ ứng dụng trên máy không nằm trong repository. Các mô hình chỉ tải khi được chọn, nên lần đầu mở có thể mất thời gian và dùng nhiều dữ liệu mạng.
+
+Các tệp hình học được nén gzip không mất dữ liệu, các tài nguyên trùng dùng chung. Tổng website khoảng 982 MB, gần giới hạn 1 GB của GitHub Pages; cần chuyển tài nguyên 3D sang kho riêng trước khi bổ sung mô hình lớn. Có thể tái tạo gói bằng `work/package_anatomy_online.py` trong workspace gốc.
+
 ## Đưa lên GitHub Pages
 
 1. Đẩy thư mục này lên repository `jeznopro/web-hust`.

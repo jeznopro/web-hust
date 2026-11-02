@@ -30,6 +30,7 @@
 .bank-question .textbtn{padding:3px 0;min-height:30px}
 .bank-editor{max-width:900px}.bank-example{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:14px;font-size:13px;line-height:1.6;margin:12px 0;color:var(--ink)}
 .bank-editor a.btn{display:inline-flex;align-items:center;text-decoration:none}
+[hidden]{display:none!important}.anatomy-frame{display:block;width:100%;height:calc(100dvh - 240px);min-height:520px;border:1px solid var(--line);border-radius:10px;background:#101820}.anatomy-frame:fullscreen{height:100dvh;border:0;border-radius:0}main:has(.anatomy-shell){max-width:none}@media(max-width:800px){.anatomy-frame{height:72dvh;min-height:420px}}
 
 /* Three study-room directions: archive paper, late-night review, and student journal. */
 body[data-skin="atlas"]{--ink:#19372f;--muted:#5c6d63;--blue:#236b5b;--blue-soft:#e6eee7;--line:#d9dfd4;--bg:#f2efe6;--green:#3d714c;--red:#a94336;font-family:"Segoe UI",Arial,sans-serif;background:var(--bg)}
@@ -126,7 +127,7 @@ body[data-skin="lab"] .sidebar-toggle{background:#202e35;color:var(--ink)}
 <body>
 <div class="app">
  <aside class="sidebar" id="site-sidebar" aria-label="Menu chính"><div class="brand"><span class="brandmark" aria-hidden="true">+</span>MedStudy</div>
-  <nav aria-label="Điều hướng"><button class="navbtn active" data-view="dashboard"><span class="navicon" aria-hidden="true">⌂</span>Góc học tập</button><button class="navbtn" data-view="library"><span class="navicon" aria-hidden="true">▤</span>Thư viện bài học</button><button class="navbtn" data-view="calendar"><span class="navicon" aria-hidden="true">▦</span>Lịch học</button><button class="navbtn" data-view="bank"><span class="navicon" aria-hidden="true">☷</span>Bộ câu hỏi</button><button class="navbtn" data-view="review"><span class="navicon" aria-hidden="true">↻</span>Ôn câu sai</button></nav>
+  <nav aria-label="Điều hướng"><button class="navbtn active" data-view="dashboard"><span class="navicon" aria-hidden="true">⌂</span>Góc học tập</button><button class="navbtn" data-view="library"><span class="navicon" aria-hidden="true">▤</span>Thư viện bài học</button><button class="navbtn" data-view="anatomy"><span class="navicon" aria-hidden="true">♧</span>Giải phẫu 3D</button><button class="navbtn" data-view="calendar"><span class="navicon" aria-hidden="true">▦</span>Lịch học</button><button class="navbtn" data-view="bank"><span class="navicon" aria-hidden="true">☷</span>Bộ câu hỏi</button><button class="navbtn" data-view="review"><span class="navicon" aria-hidden="true">↻</span>Ôn câu sai</button></nav>
   <div class="side-section"><p class="small">Học phần của bạn</p><div id="side-modules"></div></div>
   <div class="side-footer"><div class="row"><span class="avatar">DY</span><div><strong>DY18A</strong><p class="small">Sinh viên Y khoa</p></div></div><p class="note-help">Bản mẫu cá nhân<br>Tiến độ đồng bộ theo tài khoản.</p></div>
  </aside>
@@ -140,6 +141,7 @@ body[data-skin="lab"] .sidebar-toggle{background:#202e35;color:var(--ink)}
   <div class="row"><span class="brandmark" aria-hidden="true">+</span><strong>MedStudy Cloud</strong></div>
   <h1 id="cloud-heading">Học tiếp trên mọi thiết bị</h1>
   <p id="cloud-description">Đăng nhập để đồng bộ tài liệu, bộ câu hỏi và tiến độ riêng của bạn.</p>
+  <a class="btn" href="study.html">Học trên trình duyệt này · có Giải phẫu 3D</a>
   <form id="cloud-setup" class="stack" hidden>
    <p>Thiết lập một lần bằng thông tin dự án Supabase của bạn. Chỉ dùng <b>publishable key</b> hoặc <b>anon key</b>; không nhập secret/service_role key.</p>
    <label class="field"><span>Project URL</span><input id="cloud-url" type="url" placeholder="https://...supabase.co" required></label>
@@ -194,8 +196,8 @@ function focusLesson(){return byId(state.last)||byId('25.DY.K55.11_LT10')}
 function intro(h,p){return `<div class="intro"><div><h1>${h}</h1><p class="muted">${p}</p></div><span class="tag">DY18A · Học kỳ 2026</span></div>`}
 function render(){
  $('.navbtn.active')?.classList.remove('active');$(`[data-view="${view==='reader'?'library':view}"]`)?.classList.add('active');
- $('#breadcrumb').textContent=({dashboard:'Góc học tập',library:'Thư viện bài học',calendar:'Lịch học',bank:'Bộ câu hỏi',review:'Ôn câu sai',reader:'Đọc bài'})[view];
- $('#content').innerHTML=({dashboard:dashboard,library:library,calendar:calendar,bank:bankPage,review:review,reader:reader})[view]();
+ $('#breadcrumb').textContent=({dashboard:'Góc học tập',library:'Thư viện bài học',calendar:'Lịch học',anatomy:'Giải phẫu 3D',bank:'Bộ câu hỏi',review:'Ôn câu sai',reader:'Đọc bài'})[view];
+ $('#content').innerHTML=({dashboard:dashboard,library:library,calendar:calendar,anatomy:anatomyPage,bank:bankPage,review:review,reader:reader})[view]();
  bind();
 }
 function dashboard(){
@@ -271,6 +273,21 @@ function bankPage(){
  return intro('Bộ câu hỏi','Chọn một bài M8–M11 để thêm, nhập hoặc xem câu hỏi. Bài kiểm tra sau khi đọc lấy câu hỏi từ đúng bộ của bài đó.')+`<div class="toolbar" aria-label="Lọc học phần">${['all',...Object.keys(MODULES)].map(m=>`<button class="filter ${bankFilter===m?'active':''}" data-bank-filter="${m}" aria-pressed="${bankFilter===m}">${m==='all'?'Tất cả':m+' · '+MODULES[m].name}</button>`).join('')}</div><p class="small" style="margin-bottom:14px">${total} câu hỏi đã lưu · ${ls.length} bài học</p><div class="list">${ls.map(l=>`<div class="lesson-row ${cls(l.module)}"><span class="tag module lesson-code">${short(l)}</span><div class="lesson-info"><h3>${escapeHtml(title(l))}</h3><p>${l.module} · ${l.kind==='TH'?'Thực hành':'Lý thuyết'} · ${info(l.id).bank.length} câu hỏi</p></div><button class="btn" data-bank-lesson="${l.id}">Mở bộ câu hỏi</button></div>`).join('')}</div>`
 }
 function openBankLesson(id){if(!byId(id))return;selected=id;view='bank';render();window.scrollTo(0,0)}
+function anatomyPage(){return `<section class="anatomy-shell"><div class="row between" style="margin-bottom:16px"><div><h1 style="font-size:25px">Giải phẫu 3D</h1><p class="small">Mô hình toàn thân · Atlas · Não bộ</p></div><div class="row"><button class="btn" id="anatomy-retry" type="button">Kết nối lại</button><button class="btn" id="anatomy-fullscreen" type="button" hidden>Toàn màn hình</button></div></div><div id="anatomy-host"><div class="empty"><h2>Đang kết nối ứng dụng giải phẫu…</h2><p class="small" role="status">Chờ một chút để tải mô hình giải phẫu.</p></div></div></section>`}
+async function connectAnatomy(){
+ const host=$('#anatomy-host');if(!host)return;
+ const local=location.protocol==='file:'||['127.0.0.1','localhost'].includes(location.hostname);
+ const anatomyUrl=local?'http://127.0.0.1:8766/':new URL('anatomy/',location.href).href;
+ try{
+  const response=await fetch(new URL(local?'medstudy-status':'status.json',anatomyUrl),{signal:AbortSignal.timeout(8000),cache:'no-store'});
+  if(!response.ok||(await response.json()).app!=='complete-anatomy-local')throw Error('Unavailable');
+  if(!host.isConnected)return;
+  host.innerHTML='<iframe id="anatomy-frame" class="anatomy-frame" title="Giải phẫu 3D" allow="fullscreen" allowfullscreen></iframe>';
+  $('#anatomy-frame').src=anatomyUrl;
+  $('#anatomy-fullscreen').hidden=false;
+  $('#anatomy-fullscreen').onclick=()=>$('#anatomy-frame').requestFullscreen().catch(()=>toast('Trình duyệt chưa cho phép toàn màn hình.'));
+ }catch(err){if(!host.isConnected)return;host.innerHTML=local?'<div class="empty"><span class="tag">Ứng dụng giải phẫu chưa mở</span><h2>Mở MedStudy kèm Giải phẫu 3D</h2><p class="small">Nhấp đúp <b>Mo-MedStudy.cmd</b> trong thư mục chứa medstudy.html, sau đó bấm <b>Kết nối lại</b>.</p></div>':'<div class="empty"><h2>Chưa tải được giải phẫu 3D</h2><p class="small">Kiểm tra kết nối Internet rồi bấm Kết nối lại.</p></div>';$('#anatomy-fullscreen').hidden=true}
+}
 function review(){const entries=DATA.lessons.flatMap(l=>info(l.id).wrong.map(q=>({l,q})));return intro('Ôn lại những câu dễ nhầm','Câu sai từ lượt kiểm tra gần nhất của mỗi bài sẽ xuất hiện ở đây.')+(entries.length?`<div class="list">${entries.map(({l,q})=>`<div class="review-question">${moduleTag(l.module)}<h3 style="margin:12px 0">${escapeHtml(q.question)}</h3><p><b>Đáp án đúng:</b> ${escapeHtml(q.options[q.answer])}</p><p class="small">${escapeHtml(q.explanation||'Chưa có giải thích. Đối chiếu với tài liệu của bài.')}</p><button class="textbtn" data-lesson="${l.id}">Đọc lại ${short(l)}</button></div>`).join('')}</div>`:`<div class="empty"><h2>Chưa có câu cần ôn lại</h2><p class="small">Sau khi làm kiểm tra, các câu trả lời sai sẽ được lưu ở đây.</p><button class="btn primary" data-view="library">Chọn một bài học</button></div>`)+`<div class="row" style="margin-top:24px"><button class="btn" id="export-all">Xuất bản sao tiến độ</button><label class="field" style="max-width:300px"><span class="small">Khôi phục bản sao (thay dữ liệu hiện tại)</span><input id="restore-all" type="file" accept=".json"></label></div>`}
 async function openLesson(id){if(!byId(id))return;selected=id;state.last=id;save();view='reader';try{await restoreUploaded(id)}catch(err){toast('Không thể mở tài liệu đã lưu: '+err.message)}render();window.scrollTo(0,0)}
 function navigate(v){if(v==='bank')selected=null;view=v;render();window.scrollTo(0,0)}
@@ -285,6 +302,7 @@ function bind(){
  if($('#kind'))$('#kind').onchange=e=>{kind=e.target.value;render()};
  if($('#prev-week'))$('#prev-week').onclick=()=>{weekOffset--;render()};if($('#next-week'))$('#next-week').onclick=()=>{weekOffset++;render()};if($('#this-week'))$('#this-week').onclick=()=>{weekOffset=0;render()};
  if($('#demo-start'))$('#demo-start').onclick=()=>startQuiz(null,true);
+ if(view==='anatomy'){connectAnatomy();$('#anatomy-retry').onclick=connectAnatomy}
  if(view==='reader'){
   $('#save-text').onclick=async()=>{const id=selected,text=$('#lesson-text').value.trim();try{await deleteFile(id)}catch(err){toast('Chưa xóa được tệp cũ: '+err.message);return}info(id).text=text;if(docViews[id]?.url)URL.revokeObjectURL(docViews[id].url);delete docViews[id];save();render();toast('Đã lưu nội dung bài học.')};
   $('#save-notes').onclick=()=>{info(selected).notes=$('#notes').value;save();toast('Đã lưu ghi chú.')};

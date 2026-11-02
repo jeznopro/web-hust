@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MedStudy — Giải phẫu 3D</title><link rel="icon" href="assets/female.png"><link rel="stylesheet" href="app.css"></head>
+<body>
+<main id="home">
+ <header class="home-top"><button data-action="search" data-icon="search" aria-label="Search"></button><button data-action="help" data-icon="help" aria-label="Help"></button><button id="language" class="language">EN / VI</button><span class="local-mark">MEDSTUDY</span></header>
+ <section class="home-content"><h1>Giải phẫu 3D</h1><div class="home-grid">
+  <button class="models-tile" data-action="models"><img src="assets/models.png" alt=""><strong data-en="Models" data-vi="Mô hình">Models</strong></button>
+  <button class="wide-tile" data-action="search"><span data-icon="search"></span><strong data-en="Explore anatomy" data-vi="Khám phá giải phẫu">Explore anatomy</strong></button>
+  <button class="image-tile" data-action="brain"><img src="assets/brain.png" alt=""><strong data-en="Brain" data-vi="Não bộ">Brain</strong></button>
+  <button class="image-tile" data-action="atlas"><img src="assets/atlas.png" alt=""><strong data-en="Atlas" data-vi="Atlas giải phẫu">Atlas</strong></button>
+  <button data-action="screens"><strong data-en="Screens" data-vi="Góc nhìn đã lưu">Screens</strong></button>
+  <button data-action="notes"><strong data-en="Notes" data-vi="Ghi chú">Notes</strong></button>
+  <button data-action="help"><strong data-en="How to use" data-vi="Hướng dẫn">How to use</strong></button>
+  <button data-action="projects"><strong data-en="Projects" data-vi="Dự án">Projects</strong></button>
+ </div><p class="home-caption" data-en="Your anatomy workspace, on this computer." data-vi="Không gian học giải phẫu trên máy của bạn.">Your anatomy workspace, on this computer.</p></section>
+</main>
+<main id="viewer" hidden>
+ <div id="canvas-host" aria-label="Interactive 3D anatomy"></div>
+ <nav class="top-actions"><button data-action="home" data-icon="home" data-en="Home" data-vi="Trang chủ"></button><button id="undo" data-action="undo" data-icon="undo" data-en="Undo" data-vi="Hoàn tác" disabled></button><button id="reset" data-action="reset" data-icon="reset" data-en="Reset" data-vi="Đặt lại"></button></nav>
+ <div id="selection-heading" hidden><strong id="selection-name"></strong><span id="selection-latin"></span><button data-action="deselect" aria-label="Deselect">×</button></div>
+ <div class="viewer-model"><span id="model-sex">Female</span><span id="visible-count"></span></div>
+ <nav class="right-rail" aria-label="Anatomy tools">
+  <button data-action="search" data-icon="search" data-en="Search" data-vi="Tìm kiếm"></button>
+  <button data-action="tools" data-icon="tools" data-en="Tools" data-vi="Công cụ"></button>
+  <button data-action="atlas" data-icon="library" data-en="Library" data-vi="Thư viện"></button>
+  <button data-action="models" data-icon="models" data-en="Models" data-vi="Mô hình"></button>
+  <button data-action="views" data-icon="views" data-en="Views" data-vi="Góc nhìn"></button>
+  <button data-action="projects" data-icon="projects" data-en="Projects" data-vi="Dự án"></button>
+  <button id="brain-tools" data-action="brain" data-icon="views" data-en="Brain" data-vi="Não bộ" hidden></button>
+  <div class="rail-space"></div>
+  <button data-action="save-screen" data-icon="save" data-en="Save screen" data-vi="Lưu góc nhìn"></button>
+  <button data-action="export" data-icon="camera" data-en="Save image" data-vi="Lưu ảnh"></button>
+  <button data-action="help" data-icon="help" data-en="Help" data-vi="Hướng dẫn"></button>
+ </nav>
+ <nav class="system-bar" aria-label="Anatomical systems"><button class="model-switch" data-action="models"><span data-icon="models"></span><span id="sex-symbol">♀</span><span data-en="Models" data-vi="Mô hình">Models</span></button><div id="systems"></div></nav>
+ <section id="layer-menu" class="floating" hidden></section>
+ <aside id="drawer" hidden><header><h2 id="drawer-title"></h2><button id="close-drawer" aria-label="Close panel">×</button></header><div id="drawer-body"></div></aside>
+ <section id="quick-selection" class="floating" hidden><button data-action="details" data-en="Info" data-vi="Thông tin"></button><button data-action="hide" data-en="Hide" data-vi="Ẩn"></button><button data-action="isolate" data-en="Isolate" data-vi="Xem riêng"></button><button data-action="center" data-en="Center" data-vi="Căn giữa"></button><button id="multiselect" data-action="multi" aria-pressed="false" data-en="Multiselect" data-vi="Chọn nhiều"></button></section>
+ <p id="gesture-hint" data-en="Drag to rotate · Scroll to zoom · Click anatomy to select" data-vi="Kéo để xoay · Cuộn để phóng to · Bấm để chọn chi tiết">Drag to rotate · Scroll to zoom · Click anatomy to select</p>
+</main>
+<div id="loading" hidden role="status" aria-live="polite"><div class="loading-card"><span class="spinner"></span><strong id="loading-label">Loading anatomy…</strong><span id="loading-detail"></span></div></div>
+<div id="toast" role="status" hidden></div>
+<dialog id="dialog"><header><h2 id="dialog-title"></h2><button id="close-dialog" aria-label="Close">×</button></header><div id="dialog-body"></div></dialog>
+<script src="online-fetch.js"></script><script src="app.js?v=online-1"></script></body></html>
